@@ -1,13 +1,17 @@
-const ContainerDTO = async (ContainerSpec) => ({
-  container: ContainerSpec.container,
+class Container {
+  constructor(ContainerSpec) {
+    this.container = ContainerSpec.container;
+    this.quantity = ContainerSpec.quantity;
+    this.price = ContainerSpec.price;
+  }
 
-  quantity: ContainerSpec.quantity,
-  price: ContainerSpec.price,
-  product: {
-    productName: ContainerSpec.product.name,
-    productCompany: ContainerSpec.product.company,
-    productExpDate: ContainerSpec.product.expDate,
-    productProdDate: ContainerSpec.product.prodDate,
-  },
-});
-module.exports = ContainerDTO;
+  toObject() {
+    return {
+      containerName: this.container,
+      containerQuantity: this.quantity,
+      containerPrice: this.price,
+    };
+  }
+}
+
+module.exports = Container;

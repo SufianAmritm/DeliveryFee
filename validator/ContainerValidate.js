@@ -1,39 +1,48 @@
 const { body } = require("express-validator");
 const valMsg = require("./ValidationConstants");
-const { reqBodyAssign, reqBody } = require("./ReqBodyConstants");
+const containerDTO = require("../dto/ContainerDTO");
 
-const validate = [
-  body("container")
-    .exists()
-    .withMessage(valMsg.exists("container"))
-    .not()
-    .isEmpty()
-    .withMessage(valMsg.empty("container"))
-    .matches(/^[A-Z]{3}-\d+$/)
-    .withMessage(valMsg.format("container")),
+const validate = (req) => {
+  const con = new containerDTO(req.body);
+  const container = (index) => {
+    return Object.keys(con)[index];
+  };
+  return [
+    body(container(0))
+      .exists()
+      .withMessage(valMsg.exists(container(0)))
+      .not()
+      .isEmpty()
+      .withMessage(valMsg.empty(container(0)))
+      .matches(/^[A-Z]{3}-\d+$/)
+      .withMessage(valMsg.format(container(0)))
+      .escape(),
 
-  body("quantity")
-    .exists()
-    .withMessage(valMsg.exists("quantity"))
-    .not()
-    .isEmpty()
-    .withMessage(valMsg.empty("quantity"))
-    .isNumeric()
-    .withMessage(valMsg.number("quantity"))
+    body(container(1))
+      .exists()
+      .withMessage(valMsg.exists(container(1)))
+      .not()
+      .isEmpty()
+      .withMessage(valMsg.empty(container(1)))
+      .isNumeric()
+      .withMessage(valMsg.number(container(1)))
 
-    .isInt({ min: 0 })
-    .withMessage(valMsg.nonNegative("quanitity")),
+      .isInt({ min: 0 })
+      .withMessage(valMsg.nonNegative(container(1)))
+      .escape(),
 
-  body("price")
-    .exists()
-    .withMessage(valMsg.exists("price"))
-    .not()
-    .isEmpty()
-    .withMessage(valMsg.empty("price"))
-    .isNumeric()
-    .withMessage(valMsg.number("price"))
+    body(container(2))
+      .exists()
+      .withMessage(valMsg.exists(container(2)))
+      .not()
+      .isEmpty()
+      .withMessage(valMsg.empty(container(2)))
+      .isNumeric()
+      .withMessage(valMsg.number(container(2)))
 
-    .isInt({ min: 0 })
-    .withMessage(valMsg.nonNegative("price")),
-];
+      .isInt({ min: 0 })
+      .withMessage(valMsg.nonNegative(container(2)))
+      .escape(),
+  ];
+};
 module.exports = validate;
