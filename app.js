@@ -1,20 +1,18 @@
 require("dotenv").config();
 
+const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
-
+const Router = require("./routes/ContainerRoutes");
 // const notFoundMiddleware = require("./middleware/not-found");
 // const errorMiddleware = require("./middleware/error-handler");
 
 // middleware
 app.use(express.json());
-
+app.use(bodyParser.urlencoded({ extended: true }));
 // routes
 
-app.get("/", (req, res) => {
-  res.send('<h1>Store API</h1><a href="/api/v1/products">products route</a>');
-});
-
+app.use("/container", Router);
 // // products route
 
 // app.use(notFoundMiddleware);
