@@ -4,6 +4,7 @@ const validationMessage = {
   format: (item) => `${item} must be in correct format`,
   number: (item) => `${item} must be a number`,
   nonNegative: (item) => `${item} must be a non negative value`,
+  validDate: (item) => `${item} date must be valid ISO 8601 Date `,
 };
 
 module.exports = validationMessage;

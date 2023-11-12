@@ -1,46 +1,54 @@
 const { body } = require("express-validator");
 const valMsg = require("./ValidationConstants");
-let prod_date;
-let exp_date;
-const validate = [
-  body("product")
-    .exists()
-    .withMessage(valMsg.exists("product"))
-    .not()
-    .isEmpty()
-    .withMessage("Must provide product value"),
-  body("product.name")
-    .exists()
-    .withMessage("Must provide product name")
-    .not()
-    .isEmpty()
-    .withMessage("Must provide product name value"),
-  body("product.company")
-    .exists()
-    .withMessage("Must provide product company")
-    .not()
-    .isEmpty()
-    .withMessage("Must provide product company value"),
+const productDTO = require("../dto/ProductDTO");
+let prodDate;
+let expDate;
+const validate = (req) => {
+  const pro = new productDTO(req.body);
+  const product = (index) => {
+    return `product.${Object.keys(pro)[index]}`;
+  };
 
-  body("product.prod_date")
-    .isISO8601()
-    .withMessage("Production date must be a valid ISO 8601 date.")
-    .bail()
-    .custom((value) => {
-      prod_date = new Date(value);
-      return true;
-    }),
-  body("product.exp_date")
-    .isISO8601()
-    .withMessage("Expiration date must be a valid ISO 8601 date.")
-    .bail()
-    .custom((value) => {
-      exp_date = new Date(value);
+  return [
+    body(product(0))
+      .exists()
+      .withMessage(valMsg.exists(product(0)))
+      .not()
+      .isEmpty()
+      .withMessage(valMsg.empty(product(0)))
+      .escape(),
+    body(product(1))
+      .exists()
+      .withMessage(valMsg.exists(product(1)))
+      .not()
+      .isEmpty()
+      .withMessage(valMsg.empty(product(1)))
+      .escape(),
 
-      if (prod_date >= exp_date) {
-        throw new Error("Production date must be smaller than expiration date");
-      }
-      return true;
-    }),
-];
+    body(product(2))
+      .isISO8601()
+      .withMessage(valMsg.validDate(product(2)))
+      .bail()
+      .escape()
+      .custom((value) => {
+        prodDate = new Date(value);
+        return true;
+      }),
+    body(product(3))
+      .isISO8601()
+      .withMessage(valMsg.validDate(product(3)))
+      .bail()
+      .escape()
+      .custom((value) => {
+        expDate = new Date(value);
+
+        if (prodDate >= expDate) {
+          throw new Error(
+            "Production date must be smaller than expiration date"
+          );
+        }
+        return true;
+      }),
+  ];
+};
 module.exports = validate;
