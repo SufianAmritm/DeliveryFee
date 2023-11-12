@@ -1,6 +1,13 @@
-export const ContainerDTO = async (ContainerSpec) => ({
+const ContainerDTO = async (ContainerSpec) => ({
   container: ContainerSpec.container,
-  product: ContainerSpec.product,
+
   quantity: ContainerSpec.quantity,
   price: ContainerSpec.price,
+  product: {
+    productName: ContainerSpec.product.name,
+    productCompany: ContainerSpec.product.company,
+    productExpDate: ContainerSpec.product.expDate,
+    productProdDate: ContainerSpec.product.prodDate,
+  },
 });
+module.exports = ContainerDTO;
