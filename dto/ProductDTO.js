@@ -1,17 +1,7 @@
 class Product {
-  constructor(ProductSpec) {
-    this.name = ProductSpec.product.name;
-    this.company = ProductSpec.product.company;
-    this.prodDate = ProductSpec.product.prodDate;
-    this.expDate = ProductSpec.product.expDate;
-  }
-  toObject() {
-    return {
-      productName: this.name,
-      productCompany: this.company,
-      productExpDate: this.expDate,
-      productProdDate: this.prodDate,
-    };
+  constructor(product) {
+    this.name = product.name;
+    this.region = product.region;
   }
 }
 module.exports = Product;

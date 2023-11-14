@@ -1,6 +1,6 @@
-const express = require("express");
-const Router = express.Router();
-const getContainer = require("../controllers/Container");
-const validate = require("../validator/validator");
-Router.route("/").post(validate, getContainer);
-module.exports = Router;
+const express = require('express');
+const containerRouter = express.Router();
+const postContainer = require('../controllers/Container');
+const validate = require('../validator/ContainerValidationHandler');
+containerRouter.post('/', validate, postContainer);
+module.exports = containerRouter;
