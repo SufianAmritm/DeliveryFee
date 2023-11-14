@@ -1,9 +1,9 @@
-const { body } = require("express-validator");
-const valMsg = require("./ValidationConstants");
-const containerDTO = require("../dto/ContainerDTO");
+const { body } = require('express-validator');
+const valMsg = require('../ValidationConstants');
+const ContainerDTO = require('/ContainerAPI/dto/ContainerDTO');
 
 const validate = (req) => {
-  const con = new containerDTO(req.body);
+  const con = new ContainerDTO(req.body);
   const container = (index) => {
     return Object.keys(con)[index];
   };
@@ -14,6 +14,9 @@ const validate = (req) => {
       .not()
       .isEmpty()
       .withMessage(valMsg.empty(container(0)))
+      .trim()
+      .isString()
+      .withMessage(valMsg.string(container(0)))
       .matches(/^[A-Z]{3}-\d+$/)
       .withMessage(valMsg.format(container(0)))
       .escape(),
@@ -24,6 +27,7 @@ const validate = (req) => {
       .not()
       .isEmpty()
       .withMessage(valMsg.empty(container(1)))
+      .trim()
       .isNumeric()
       .withMessage(valMsg.number(container(1)))
 
@@ -37,11 +41,23 @@ const validate = (req) => {
       .not()
       .isEmpty()
       .withMessage(valMsg.empty(container(2)))
+      .trim()
+      .isString()
+      .withMessage(valMsg.string(container(0)))
+
+      .escape(),
+    body(container(3))
+      .exists()
+      .withMessage(valMsg.exists(container(3)))
+      .not()
+      .isEmpty()
+      .withMessage(valMsg.empty(container(3)))
+      .trim()
       .isNumeric()
-      .withMessage(valMsg.number(container(2)))
+      .withMessage(valMsg.number(container(3)))
 
       .isInt({ min: 0 })
-      .withMessage(valMsg.nonNegative(container(2)))
+      .withMessage(valMsg.nonNegative(container(3)))
       .escape(),
   ];
 };

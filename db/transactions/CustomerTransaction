@@ -1,0 +1,30 @@
+const db = require('../postgredb');
+
+const customerTransaction = async (
+  name,
+  mobile,
+  accountNumber,
+  address,
+  identificationNumber
+) => {
+  tableName = 'customers';
+  try {
+    const result = await db.transaction((trx) => {
+      const id = trx(tableName)
+        .insert({
+          name: name,
+          mobile: mobile,
+          account_number: accountNumber,
+          address: address,
+          identification_number: identificationNumber,
+        })
+        .returning('id');
+      return id;
+    });
+    return result;
+  } catch (err) {
+    throw new Error(`Cannot perform transaction on ${tableName}`);
+  }
+};
+
+module.exports = customerTransaction;

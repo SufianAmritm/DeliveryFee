@@ -1,4 +1,8 @@
-const getContainer = async (req, res) => {
-  res.send();
+const insertIntoTable = require('../services/ContainerService');
+
+const Container = async (req, res) => {
+  const id = await insertIntoTable(req.body);
+  res.json(id);
 };
-module.exports = getContainer;
+
+module.exports = Container;
