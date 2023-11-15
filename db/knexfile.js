@@ -10,11 +10,11 @@ console.log();
 
 module.exports = {
   development: {
-    client: 'pg',
+    client: process.env.DB_CLIENT,
     connection: {
-      database: 'postgres',
-      user: process.env.USER,
-      password: process.env.PASSWORD,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASS,
     },
     pool: {
       min: 2,

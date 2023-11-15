@@ -1,9 +1,9 @@
 class Container {
   constructor(container) {
-    this.number = container.number;
+    this.container_number = container.container_number;
     this.quantity = container.quantity;
     this.vendor = container.vendor;
-    this.productId = container.productId;
+    this.product_skus_id = container.product_skus_id;
   }
 }
 
