@@ -7,30 +7,37 @@ const validate = (req) => {
   const saleAgent = (index) => {
     return Object.keys(item)[index];
   };
+  let validateArray = [];
+  if (item[saleAgent(0)] !== undefined) {
+    validateArray.push(
+      body(saleAgent(0))
+        .exists()
+        .withMessage(valMsg.exists(saleAgent(0)))
+        .not()
+        .isEmpty()
+        .withMessage(valMsg.empty(saleAgent(0)))
+        .trim()
+        .isString()
+        .withMessage(valMsg.string(saleAgent(0)))
 
-  return [
-    body(saleAgent(0))
-      .exists()
-      .withMessage(valMsg.exists(saleAgent(0)))
-      .not()
-      .isEmpty()
-      .withMessage(valMsg.empty(saleAgent(0)))
-      .trim()
-      .isString()
-      .withMessage(valMsg.string(saleAgent(0)))
+        .escape()
+    );
+  }
+  if (item[saleAgent(1)] !== undefined) {
+    validateArray.push(
+      body(saleAgent(1))
+        .exists()
+        .withMessage(valMsg.exists(saleAgent(1)))
+        .not()
+        .isEmpty()
+        .withMessage(valMsg.empty(saleAgent(1)))
+        .trim()
+        .isString()
+        .withMessage(valMsg.string(saleAgent(0)))
 
-      .escape(),
-    body(saleAgent(1))
-      .exists()
-      .withMessage(valMsg.exists(saleAgent(1)))
-      .not()
-      .isEmpty()
-      .withMessage(valMsg.empty(saleAgent(1)))
-      .trim()
-      .isString()
-      .withMessage(valMsg.string(saleAgent(0)))
-
-      .escape(),
-  ];
+        .escape()
+    );
+  }
+  return validateArray;
 };
 module.exports = validate;

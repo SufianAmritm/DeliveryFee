@@ -1,6 +1,16 @@
 const express = require('express');
 const saleAgentRouter = express.Router();
-const postSaleAgent = require('../controllers/SaleAgents');
-const validate = require('../validator/SaleAgentValidationHandler');
-saleAgentRouter.post('/', validate, postSaleAgent);
+const {
+  saleAgentInsert,
+  saleAgentUpdate,
+  saleAgentGetAll,
+  saleAgentGetSingle,
+  saleAgentDelete,
+} = require('../controllers/SaleAgents');
+const validate = require('../validator/ValidationHandlers/SaleAgentValidationHandler');
+saleAgentRouter.post('/', validate, saleAgentInsert);
+saleAgentRouter.patch('/', validate, saleAgentUpdate);
+saleAgentRouter.get('/', saleAgentGetAll);
+saleAgentRouter.get('/:id', saleAgentGetSingle);
+saleAgentRouter.delete('/:id', saleAgentDelete);
 module.exports = saleAgentRouter;
