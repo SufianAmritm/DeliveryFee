@@ -1,4 +1,5 @@
 const Order = require('../../dto/OrderDTO');
+const archiver = require('archiver');
 const insertService = require('../TableServices/InsertService');
 const updateService = require('../TableServices/UpdateService');
 const {
@@ -27,9 +28,20 @@ const orderGetSingleService = async (id) => {
 const orderDeleteService = async (id) => {
   return await deleteService(id, tableName);
 };
-const orderReportService = async () => {
+const orderReportService = async (res) => {
   const result = await reportTransaction();
-  const response = await reportService(result);
+  const [file1, file2] = await reportService(result);
+
+  const zip = archiver('zip', {
+    zlib: { level: 9 },
+  });
+
+  zip.pipe(res);
+
+  zip.file(file1, { name: 'report.xlsx' });
+  zip.file(file2, { name: 'summary.xlsx' });
+
+  zip.finalize();
 };
 module.exports = {
   orderInsertService,
