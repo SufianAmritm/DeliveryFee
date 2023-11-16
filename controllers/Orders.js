@@ -29,8 +29,18 @@ const orderDelete = async (req, res) => {
 };
 
 const orderReport = async (req, res) => {
-  const result = await orderReportService();
-  res.json(result);
+  try {
+    await orderReportService(res); // Assuming orderReportService returns an array of file paths
+
+    // // Respond when download is complete
+    // res.on('close', () => {
+    //   console.log('Download finished.');
+    //   // Send any acknowledgment or response here
+    // });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error generating the files');
+  }
 };
 module.exports = {
   orderInsert,

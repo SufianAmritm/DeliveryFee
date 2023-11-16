@@ -15,9 +15,13 @@ const reportTransaction = async (tableName) => {
       .select(
         'orders.id AS Order_Id',
         'containers.container_number AS Container_Name',
-        'customers.name AS Customer_Name',
-        'sale_agents.name AS SaleAgent_Name',
-        'product_skus.name AS Product_Name'
+
+        'customers.name AS Customer',
+        'sale_agents.name AS Sale_Agent',
+        'product_skus.name AS Product',
+        'orders.quantity AS Quantity',
+        'orders.rate AS Price',
+        'orders.total AS Total'
       );
 
     return response;
