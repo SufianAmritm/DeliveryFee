@@ -3,20 +3,18 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
-const mainRouter = require('./routes/mainRoute');
-// const notFoundMiddleware = require("./middleware/not-found");
-// const errorMiddleware = require("./middleware/error-handler");
+const mainRouter = require('./src/routes/main-routes');
+const notFoundMiddleware = require('./src/middleware/not-found');
+const errorMiddleware = require('./src/middleware/error-handler');
 
-// middleware
 app.use(express.json());
 
 // routes
 
 app.use('/api', mainRouter);
-// // products route
 
-// app.use(notFoundMiddleware);
-// app.use(errorMiddleware);
+app.use(notFoundMiddleware);
+app.use(errorMiddleware);
 
 const port = process.env.PORT;
 
