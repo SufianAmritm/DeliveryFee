@@ -1,65 +1,42 @@
+# DeliveryFee
+
+REST API for managing **delivery fees** by city, zone and seller, built with **Express**, **Knex** and **PostgreSQL**.
+
+## Features
+- CRUD endpoints for cities, zones, sellers and delivery fees
+- DTOs and request validation (Joi, express-validator)
+- Shared services and a transaction layer for get, insert, update and delete
+- Custom error classes with a central error handler and 404 middleware
+- Knex migrations
+
+## Tech
+Node.js · Express · Knex · PostgreSQL · Joi
+
+## Project structure
 
 ```
-DeliveryFee
-├─ app.js
-├─ common
-│  ├─ constants
-│  │  └─ validation-constants.js
-│  ├─ errors
-│  │  ├─ bad-request.js
-│  │  ├─ custom-api.js
-│  │  ├─ index.js
-│  │  └─ transaction-error.js
-│  └─ utils
-│     ├─ data-existence.js
-│     └─ services
-│        ├─ delete-service.js
-│        ├─ get-service.js
-│        ├─ insert-service.js
-│        └─ update-service.js
-├─ db
-│  ├─ knex-file.js
-│  ├─ migrations
-│  │  └─ 20231113124300_knex_mig.js
-│  ├─ postgre-db.js
-│  └─ transactions
-│     ├─ delete-transaction.js
-│     ├─ get-transaction.js
-│     ├─ insert-transaction.js
-│     └─ update-transaction.js
-├─ package-lock.json
-├─ package.json
-├─ README.md
-└─ src
-   ├─ controllers
-   │  ├─ city.js
-   │  ├─ delivery-fee.js
-   │  ├─ seller.js
-   │  └─ zone.js
-   ├─ dto
-   │  ├─ city-dto.js
-   │  ├─ delivery-fee-dto.js
-   │  ├─ seller-dto.js
-   │  └─ zone-dto.js
-   ├─ middleware
-   │  ├─ error-handler.js
-   │  └─ not-found.js
-   ├─ routes
-   │  ├─ city-routes.js
-   │  ├─ delivery-fee-routes.js
-   │  ├─ main-routes.js
-   │  ├─ seller-routes.js
-   │  └─ zone-routes.js
-   ├─ services
-   │  ├─ city-service.js
-   │  ├─ delivery-fee-service.js
-   │  ├─ seller-service.js
-   │  └─ zone-service.js
-   └─ validator
-      └─ ValidationHandlers
-         ├─ city-validation-handler.js
-         ├─ delivery-fee-validation-handler.js
-         ├─ seller-validation-handler.js
-         └─ zone-validation-handler.js
+app.js
+src/
+├─ controllers/   # city, zone, seller, delivery-fee
+├─ dto/
+├─ routes/
+├─ services/
+├─ validator/
+└─ middleware/    # not-found and error handler
+db/
+├─ migrations/
+└─ transactions/  # get, insert, update, delete
+common/
+├─ constants/
+├─ errors/
+└─ utils/
+```
 
+## Run
+
+```bash
+npm install
+# set your PostgreSQL connection in .env
+npx knex migrate:latest --knexfile db/knex-file.js
+npm start
 ```
